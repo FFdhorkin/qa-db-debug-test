@@ -20,7 +20,13 @@ RUN echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/11/main/pg_hba.conf && 
 # Set up the working directory for the app
 WORKDIR /app
 
-# Copy just the starter database (we'll copy the rest later). This avoids needing a rebuild of the postgres db if tests change
+# Copy just the package.json (we'll copy the rest later). This makes it so unless package.json changes, npm packages won't need to be re-downloaded/re-installed.
+COPY package.json .
+
+# Install Node.js dependencies
+RUN npm install
+
+# Copy just the starter database (we'll copy the rest later). This avoids needing a rebuild of the postgres db if test code changes.
 COPY setup_db.sql.b64 .
 
 # Start PostgreSQL, create the database, user, and decode and execute the Base64 SQL commands
@@ -34,11 +40,6 @@ RUN service postgresql start && \
 
 # Copy remaining files into container
 COPY . .
-
-# Install Node.js dependencies
-RUN npm install
-
-EXPOSE 5432
 
 # Run the test when the container starts
 CMD ["sh", "./run_test.sh"]
