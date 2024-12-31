@@ -8,10 +8,10 @@ describe('Database Test', function () {
 
   before(async function () {
     client = new Client({
-      user: 'testuser',
+      user: process.env.POSTGRES_USER,
       host: 'localhost',
-      database: 'testdb',
-      password: 'password',
+      database: process.env.POSTGRES_DB,
+      password: process.env.POSTGRES_PASSWORD,
       port: 5432,
     });
     await client.connect();
