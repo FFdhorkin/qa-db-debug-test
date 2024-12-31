@@ -39,6 +39,7 @@ describe('Database Test', function () {
         INSERT INTO users (
           email,
           username,
+          password_hash,
           first_name,
           last_name,
           date_of_birth,
@@ -46,6 +47,7 @@ describe('Database Test', function () {
         ) VALUES (
           'test.user@example.com',
           'testuser123',
+          'not.a.real.hash',
           'Test',
           'User',
           '1990-01-15',
